@@ -12,8 +12,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/figures": "^2.0.0",
-    "@types/inquirer": "^0.0.43",
-    "@types/node": "^8.0.47",
+    "@types/inquirer": "^6",
+    "@types/node": "^10",
     "typescript": "^3"
   },
   "dependencies": {

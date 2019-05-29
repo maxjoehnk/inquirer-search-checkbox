@@ -1,5 +1,3 @@
-/// <reference types="rx" />
-
 declare module "inquirer/lib/prompts/base" {
 	export = Base;
 
@@ -45,10 +43,12 @@ declare module "inquirer/lib/prompts/base" {
 }
 
 declare module "inquirer/lib/utils/events" {
+	import { Observable } from 'rxjs';
+
 	interface Events {
-		keypress: Rx.Observable<any>;
-		line: Rx.Observable<any>;
-		spaceKey: Rx.Observable<any>;
+		keypress: Observable<any>;
+		line: Observable<any>;
+		spaceKey: Observable<any>;
 	}
 
 	function observe(params: any): Events;

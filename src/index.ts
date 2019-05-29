@@ -4,6 +4,7 @@ import figures = require("figures");
 import Paginator = require("inquirer/lib/utils/paginator");
 import chalk from "chalk";
 import * as fuzzy from "fuzzy";
+import { filter, takeUntil, map } from 'rxjs/operators';
 
 interface Event {
 	key: {
@@ -172,35 +173,37 @@ class SearchBox extends Base {
 		this.done = cb;
 
 		const events = observe(this.rl);
-		const upKey = events.keypress.filter(
+		const upKey = events.keypress.pipe(filter(
 			(e: Event) =>
 				e.key.name === "up" || (e.key.name === "p" && e.key.ctrl)
-		);
-		const downKey = events.keypress.filter(
+		));
+		const downKey = events.keypress.pipe(filter(
 			(e: Event) =>
 				e.key.name === "down" || (e.key.name === "n" && e.key.ctrl)
-		);
-		const allKey = events.keypress.filter(
+		));
+		const allKey = events.keypress.pipe(filter(
 			(e: Event) => e.key.name === "o" && e.key.ctrl
-		);
+		));
 		const validation = this.handleSubmitEvents(
-			events.line.map(this.getCurrentValue.bind(this))
+			events.line.pipe(map(this.getCurrentValue.bind(this)))
 		);
 
 		validation.success.forEach(this.onEnd.bind(this));
 		validation.error.forEach(this.onError.bind(this));
 		upKey.forEach(this.onUpKey.bind(this));
 		downKey.forEach(this.onDownKey.bind(this));
-		allKey.takeUntil(validation.success).forEach(this.onAllKey.bind(this));
+		allKey.pipe(takeUntil(validation.success)).forEach(this.onAllKey.bind(this));
 		events.spaceKey
-			.takeUntil(validation.success)
+			.pipe(takeUntil(validation.success))
 			.forEach(this.onSpaceKey.bind(this));
 		events.keypress
-			.filter(
-				(e: Event) => !e.key.ctrl && !ignoreKeys.includes(e.key.name)
-			)
-			.takeUntil(validation.success)
-			.forEach(this.onKeyPress.bind(this));
+            .pipe(
+                filter(
+                    (e: Event) => !e.key.ctrl && !ignoreKeys.includes(e.key.name)
+                ),
+                takeUntil(validation.success)
+            )
+             .forEach(this.onKeyPress.bind(this));
 
 		this.render();
 		return this;
