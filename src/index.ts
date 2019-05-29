@@ -49,7 +49,7 @@ function renderChoices(choices: Choice[], pointer: number) {
 class SearchBox extends Base {
 	private pointer: number = 0;
 	private selection: string[] = [];
-	private done: (state: any) => void;
+	private done?: (state: any) => void;
 	private choices: Choice[] = [];
 	private filterList: Choice[] = [];
 	private paginator: Paginator = new Paginator();
@@ -146,7 +146,7 @@ class SearchBox extends Base {
 		this.render();
 
 		this.screen.done();
-		this.done(state.value);
+		this.done && this.done(state.value);
 	}
 
 	onError(state: any) {

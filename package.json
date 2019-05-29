@@ -12,9 +12,9 @@
   "license": "MIT",
   "devDependencies": {
     "@types/figures": "^2.0.0",
-    "@types/inquirer": "^0.0.35",
+    "@types/inquirer": "^0.0.43",
     "@types/node": "^8.0.47",
-    "typescript": "^2.5.3"
+    "typescript": "^3"
   },
   "dependencies": {
     "chalk": "^2.3.0",
