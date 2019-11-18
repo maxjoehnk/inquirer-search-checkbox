@@ -11,12 +11,8 @@
 		"baseUrl": "./src",
 		"outDir": "./dist",
 		"lib": [
-			"ES6",
-			"DOM",
-			"DOM.Iterable",
-			"ScriptHost",
-			"ES2016.Array.Include"
-		]
+            "es2016"
+        ]
 	},
 	"include": ["./src/**.ts", "./types/**/*.d.ts"],
 	"exclude": ["node_modules", "./dist"]
